@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<style>
+			p#source span:hover
+			{
+				background-color: yellow;
+			}
+		</style>
+
+		<script>
+			window.onload = function () {
+				var i, tx, html, node;
+
+				node = document.getElementById("source");
+				tx = node.innerHTML;
+
+				html = "";
+
+				var after = tx.split(' ');
+				for (i = 0; i < after.length; i++)
+				{
+					//html += "<span>" + tx.charAt(i) + "</span>";
+					html += "<span>" + after[i] + "</span>" + " ";
+				}
+
+				node.innerHTML = html;
+			};
+		</script>
+	</head>
+	<body>
+		<p id="source">This is an example text.<br> wow</p>
+	</body>
+</html>
