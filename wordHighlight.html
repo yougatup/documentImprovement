@@ -3,13 +3,43 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 		<script>
+			var clickedWord;
+			var grayColor = "#D3D3D3";
+			var yellowColor = "#ffff66";
+
 			$(document).ready(function(){
+				$('#submitBtn').click(
+				function() {
+					$(clickedWord).css('background-color', yellowColor);
+
+					if(clickedWord.question == null) {
+						clickedWord.question = [];
+					}
+
+					clickedWord.question.push($("#questionContents").val());
+
+					$('#questionContents').val('');
+				}
+				);
+
 				$('.hoverable span').hover(
 				function() { 
-					$(this).css('background-color','#ffff66'); 
+					if(this.isClicked == null || (this.isClicked != null && this.isClicked == false)) {
+						$(this).css('background-color',grayColor); 
+
+						} else {
+
+						if(this.question != null) {
+							$('#questionTable').find("tr:gt(0)").remove();
+
+							for(var i=0;i<this.question.length;i++) {
+								$('#questionTable > tbody:last').append('<tr><td>' + this.question[i] + '</td></tr>');
+							}
+						}
+					}
 				},
 				function() { 
-					if (this.clicked == null || (this.clicked != null && this.clicked == false)) {
+					if(this.isClicked == null || (this.isClicked != null && this.isClicked == false)) {
 						$(this).css('background-color',''); 
 					}
 				}
@@ -17,20 +47,20 @@
 
 				$('.hoverable span').click(
 				function() { 
-					if (this.clicked == null || this.clicked == false) {
-						$(this).css('background-color','#ffff66'); 
-						this.clicked = true;
-						} else {
-						$(this).css('background-color',''); 
-						this.clicked = false;
-					}
+					$('#wordBox').text($(this).text());
+
+					clickedWord = this;
+					clickedWord.isClicked = true;
 				}
 				);
-			});
 
+			});
 		</script>
 	</head>
 	<body>
+		<h1>
+			Constructor
+		</h1>
 		<div class="hoverable">
 			<script>
 				document.write(makeSpan(getStr()).join(' '));
@@ -58,6 +88,27 @@
 				}
 
 			</script>
-		</div>
-	</body>
-</html>
+		</div> 
+
+		<table>
+			<tr>
+				<td>
+					<div>
+						<p> Word <div id="wordBox"> </div> </p>
+						<p> Question : <textarea style="height:200px; width:500px" type="text" id="questionContents" ></textarea> </p> 
+						<button id="submitBtn"> submit </button>
+					</div>
+				</td>
+				<td>
+					<br>
+					<table id="questionTable"> 
+						<tr>
+							<th>question List</th>
+						</tr>
+
+						<tbody>
+						</tbody>
+					</table>
+				</td>
+			</body>
+		</html>
