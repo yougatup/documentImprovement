@@ -1,47 +1,63 @@
 <html>
 	<head>
-		<style>
-			p#source span:hover
-			{
-				background-color: yellow;
-			}
-		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 		<script>
-			window.onload = function () {
-				var i, tx, html, node;
-
-				node = document.getElementById("source");
-				tx = node.innerHTML;
-
-				html = "";
-
-				var after = tx.split(' ');
-				for (i = 0; i < after.length; i++)
-				{
-					//html += "<span>" + tx.charAt(i) + "</span>";
-					html += "<span>" + after[i] + "</span>" + " ";
+			$(document).ready(function(){
+				$('.hoverable span').hover(
+				function() { 
+					$(this).css('background-color','#ffff66'); 
+				},
+				function() { 
+					if (this.clicked == null || (this.clicked != null && this.clicked == false)) {
+						$(this).css('background-color',''); 
+					}
 				}
+				);
 
-				node.innerHTML = html;
-			};
+				$('.hoverable span').click(
+				function() { 
+					if (this.clicked == null || this.clicked == false) {
+						$(this).css('background-color','#ffff66'); 
+						this.clicked = true;
+						} else {
+						$(this).css('background-color',''); 
+						this.clicked = false;
+					}
+				}
+				);
+			});
+
 		</script>
 	</head>
 	<body>
-		<p id="source">
-		<script>
-			var str = "In class-based object-oriented programming, a constructor (abbreviation: ctor) in a class is a special type of subroutine called to create an object. It prepares the new object for use, often accepting arguments that the constructor uses to set required member variables."
+		<div class="hoverable">
+			<script>
+				document.write(makeSpan(getStr()).join(' '));
 
-			str += " <br> A constructor resembles an instance method, but it differs from a method in that it has no explicit return type, it is not implicitly inherited and it usually has different rules for scope modifiers. Constructors often have the same name as the declaring class. They have the task of initializing the object's data members and of establishing the invariant of the class, failing if the invariant is invalid. A properly written constructor leaves the resulting object in a valid state. Immutable objects must be initialized in a constructor."
+				function getStr(){
+					var str = "In class-based object-oriented programming, a constructor (abbreviation: ctor) in a class is a special type of subroutine called to create an object. It prepares the new object for use, often accepting arguments that the constructor uses to set required member variables."
 
-			str += " <br> Programmers also use the term constructor to denote one of the tags that wraps data in an algebraic data type. This is a different usage than in this article. [dubious - discuss]"
+					str += " <br> A constructor resembles an instance method, but it differs from a method in that it has no explicit return type, it is not implicitly inherited and it usually has different rules for scope modifiers. Constructors often have the same name as the declaring class. They have the task of initializing the object's data members and of establishing the invariant of the class, failing if the invariant is invalid. A properly written constructor leaves the resulting object in a valid state. Immutable objects must be initialized in a constructor."
 
-			str += " <br> Most languages allow overloading the constructor in that there can be more than one constructor for a class, with differing parameters. Some languages take consideration of some special types of constructors. Constructors, which concretely use a single class to create objects and return a new instance of the class, are abstracted by factories, which also create objects but can do so in various ways, using multiple classes or different allocation schemes such as an object pool."
+					str += " <br> Programmers also use the term constructor to denote one of the tags that wraps data in an algebraic data type. This is a different usage than in this article.[dubious - discuss]"
 
-			var splittedStr = str.split(' ');
+					str += " <br> Most languages allow overloading the constructor in that there can be more than one constructor for a class, with differing parameters. Some languages take consideration of some special types of constructors. Constructors, which concretely use a single class to create objects and return a new instance of the class, are abstracted by factories, which also create objects but can do so in various ways, using multiple classes or different allocation schemes such as an object pool."
 
-			document.write(splittedStr.join(' '));
-		</script>
-		</p>
+					return str;
+				}
+
+				function makeSpan(str) {
+					var splittedStr = str.split(' ');
+
+					for (i=0;i<splittedStr.length;i++) {
+						splittedStr[i] = "<span>" + splittedStr[i] + "</span>";
+					}
+
+					return splittedStr;
+				}
+
+			</script>
+		</div>
 	</body>
 </html>
