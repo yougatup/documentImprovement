@@ -1,5 +1,7 @@
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="mystyle.css">
+
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 		<script>
@@ -10,6 +12,8 @@
 			$(document).ready(function(){
 				$('#submitBtn').click(
 				function() {
+					clickedWord.isClicked = true;
+
 					$(clickedWord).css('background-color', yellowColor);
 
 					if(clickedWord.question == null) {
@@ -24,11 +28,9 @@
 
 				$('.hoverable span').hover(
 				function() { 
-					if(this.isClicked == null || (this.isClicked != null && this.isClicked == false)) {
+					if(clickedWord != this && (this.isClicked == null || (this.isClicked != null && $(this).isClicked == false))) {
 						$(this).css('background-color',grayColor); 
-
 						} else {
-
 						if(this.question != null) {
 							$('#questionTable').find("tr:gt(0)").remove();
 
@@ -39,7 +41,8 @@
 					}
 				},
 				function() { 
-					if(this.isClicked == null || (this.isClicked != null && this.isClicked == false)) {
+					if(clickedWord != this && (this.isClicked == null || (this.isClicked != null && $(this).isClicked == false))) {
+						$(this).css('background-color',grayColor); 
 						$(this).css('background-color',''); 
 					}
 				}
@@ -47,68 +50,72 @@
 
 				$('.hoverable span').click(
 				function() { 
+					if (clickedWord != null && $(clickedWord).css("background-color") == 'rgb(211, 211, 211)') {
+						//alert( $(clickedWord).css("background-color") );
+						$(clickedWord).css('background-color', '');
+					}
+
 					$('#wordBox').text($(this).text());
 
 					clickedWord = this;
-					clickedWord.isClicked = true;
 				}
 				);
 
-			});
-		</script>
-	</head>
-	<body>
-		<h1>
-			Constructor
-		</h1>
-		<div class="hoverable">
-			<script>
-				document.write(makeSpan(getStr()).join(' '));
+				});
+			</script>
+		</head>
+		<body>
+			<h1>
+				Constructor
+			</h1>
+			<div class="hoverable">
+				<script>
+					document.write(makeSpan(getStr()).join(' '));
 
-				function getStr(){
-					var str = "In class-based object-oriented programming, a constructor (abbreviation: ctor) in a class is a special type of subroutine called to create an object. It prepares the new object for use, often accepting arguments that the constructor uses to set required member variables."
+					function getStr(){
+						var str = "In class-based object-oriented programming, a constructor (abbreviation: ctor) in a class is a special type of subroutine called to create an object. It prepares the new object for use, often accepting arguments that the constructor uses to set required member variables."
 
-					str += " <br> A constructor resembles an instance method, but it differs from a method in that it has no explicit return type, it is not implicitly inherited and it usually has different rules for scope modifiers. Constructors often have the same name as the declaring class. They have the task of initializing the object's data members and of establishing the invariant of the class, failing if the invariant is invalid. A properly written constructor leaves the resulting object in a valid state. Immutable objects must be initialized in a constructor."
+						str += " <br> A constructor resembles an instance method, but it differs from a method in that it has no explicit return type, it is not implicitly inherited and it usually has different rules for scope modifiers. Constructors often have the same name as the declaring class. They have the task of initializing the object's data members and of establishing the invariant of the class, failing if the invariant is invalid. A properly written constructor leaves the resulting object in a valid state. Immutable objects must be initialized in a constructor."
 
-					str += " <br> Programmers also use the term constructor to denote one of the tags that wraps data in an algebraic data type. This is a different usage than in this article.[dubious - discuss]"
+						str += " <br> Programmers also use the term constructor to denote one of the tags that wraps data in an algebraic data type. This is a different usage than in this article.[dubious - discuss]"
 
-					str += " <br> Most languages allow overloading the constructor in that there can be more than one constructor for a class, with differing parameters. Some languages take consideration of some special types of constructors. Constructors, which concretely use a single class to create objects and return a new instance of the class, are abstracted by factories, which also create objects but can do so in various ways, using multiple classes or different allocation schemes such as an object pool."
+						str += " <br> Most languages allow overloading the constructor in that there can be more than one constructor for a class, with differing parameters. Some languages take consideration of some special types of constructors. Constructors, which concretely use a single class to create objects and return a new instance of the class, are abstracted by factories, which also create objects but can do so in various ways, using multiple classes or different allocation schemes such as an object pool."
 
-					return str;
-				}
-
-				function makeSpan(str) {
-					var splittedStr = str.split(' ');
-
-					for (i=0;i<splittedStr.length;i++) {
-						splittedStr[i] = "<span>" + splittedStr[i] + "</span>";
+						return str;
 					}
 
-					return splittedStr;
-				}
+					function makeSpan(str) {
+						var splittedStr = str.split(' ');
 
-			</script>
-		</div> 
+						for (i=0;i<splittedStr.length;i++) {
+							splittedStr[i] = "<span>" + splittedStr[i] + "</span>";
+						}
 
-		<table>
-			<tr>
-				<td>
-					<div>
-						<p> Word <div id="wordBox"> </div> </p>
-						<p> Question : <textarea style="height:200px; width:500px" type="text" id="questionContents" ></textarea> </p> 
-						<button id="submitBtn"> submit </button>
-					</div>
-				</td>
-				<td>
-					<br>
-					<table id="questionTable"> 
-						<tr>
-							<th>question List</th>
-						</tr>
+						return splittedStr;
+					}
 
-						<tbody>
-						</tbody>
-					</table>
-				</td>
-			</body>
-		</html>
+				</script>
+			</div> 
+
+			<table>
+				<tr>
+					<td>
+						<div>
+							<p> Word <div id="wordBox"> </div> </p>
+							<p> Question : <textarea style="height:200px; width:500px" type="text" id="questionContents" ></textarea> </p> 
+							<button id="submitBtn"> submit </button>
+						</div>
+					</td>
+					<td>
+						<br>
+						<table id="questionTable"> 
+							<tr>
+								<th>question List</th>
+							</tr>
+
+							<tbody>
+							</tbody>
+						</table>
+					</td>
+				</body>
+			</html>
